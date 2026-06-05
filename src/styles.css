@@ -82,6 +82,7 @@ input:focus-visible {
 .language-switch,
 .upload-zone,
 .sample-button,
+.privacy-note,
 .switch-row,
 .download-button,
 .toolbar-download,
@@ -325,6 +326,23 @@ h1 {
 .sample-button:hover {
   border-color: var(--amber);
   background: #ffeecb;
+}
+
+.privacy-note {
+  gap: 8px;
+  margin: 0;
+  padding: 9px 10px;
+  border: 1px solid #c7e3db;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 680;
+  line-height: 1.35;
+}
+
+.privacy-note svg {
+  flex: 0 0 auto;
 }
 
 .segmented-control {

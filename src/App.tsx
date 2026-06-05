@@ -12,6 +12,7 @@ import {
   Maximize2,
   RefreshCcw,
   Ruler,
+  ShieldCheck,
   Sparkles,
   Upload,
 } from "lucide-react";
@@ -78,6 +79,7 @@ type Copy = {
   uploadImage: string;
   fileTypes: string;
   sampleImage: string;
+  privacyNotice: string;
   size: string;
   widthPresetLabel: string;
   sampleLongSide: string;
@@ -124,6 +126,7 @@ const COPY: Record<Language, Copy> = {
     uploadImage: "上传图片",
     fileTypes: "JPG / PNG / WEBP",
     sampleImage: "示例图",
+    privacyNotice: "图片仅在浏览器本地处理，不上传服务器。",
     size: "尺寸",
     widthPresetLabel: "模型宽度预设",
     sampleLongSide: "采样长边",
@@ -187,6 +190,8 @@ const COPY: Record<Language, Copy> = {
     uploadImage: "Upload image",
     fileTypes: "JPG / PNG / WEBP",
     sampleImage: "Sample",
+    privacyNotice:
+      "Images are processed locally in your browser and are never uploaded to a server.",
     size: "Size",
     widthPresetLabel: "Model width presets",
     sampleLongSide: "Sample long side",
@@ -988,6 +993,11 @@ export default function App() {
               <Sparkles size={17} />
               <span>{copy.sampleImage}</span>
             </button>
+
+            <p className="privacy-note">
+              <ShieldCheck size={16} />
+              <span>{copy.privacyNotice}</span>
+            </p>
           </ControlSection>
 
           <ControlSection icon={<Ruler size={18} />} title={copy.size}>
@@ -1305,8 +1315,13 @@ function triggerDownload(blob: Blob, filename: string) {
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
   anchor.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  window.setTimeout(() => {
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  }, 0);
 }
 
 function createSampleImageFile(filename: string): Promise<File> {
